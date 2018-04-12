@@ -12,8 +12,6 @@ import com.cisco.oneidentity.iam.model.SearchResponse;
 
 public interface DNBIntegration {
 	
-	public Mono<ServerResponse> dnbSearcher(Mono<GatewayRequest<?>> request);
-	
-	public  Mono<ServerResponse> processDNBSearch(UUID requestId,GatewayRequest<?> request);
+	public Mono<ServerResponse> dnbSearcher(GatewayRequest<?> request);
 	
 }

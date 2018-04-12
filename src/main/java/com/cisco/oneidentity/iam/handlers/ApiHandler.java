@@ -7,6 +7,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 import reactor.core.publisher.Mono;
 
+import com.cisco.oneidentity.iam.constants.SearchResultType;
+import com.cisco.oneidentity.iam.exception.ClientException;
 import com.cisco.oneidentity.iam.model.CRPartyDetails;
 import com.cisco.oneidentity.iam.processors.factory.DNBSearchFactory;
 import com.cisco.oneidentity.iam.utils.CommonRoutines;
@@ -15,7 +17,7 @@ import com.cisco.oneidentity.iam.utils.CommonRoutines;
 public class ApiHandler {
 	
 	private final ErrorHandler errorHandler;
-	
+
 	@Autowired
 	private DNBSearchFactory dnbSearchFactory;
 
@@ -25,8 +27,21 @@ public class ApiHandler {
 	
     public Mono<ServerResponse> dnbSearch(ServerRequest request) {
     	Mono<CRPartyDetails> CRPartyDetails = request.bodyToMono(CRPartyDetails.class);
-        return  dnbSearchFactory.execute(CRPartyDetails.flatMap((paryRequest)->	CommonRoutines.buildDNBSearchPayload(paryRequest)))
+        return  CRPartyDetails.transform(this::validateRequest)
         		.onErrorResume(errorHandler::throwableError);
+        		
     }
+    
+	
+  private  Mono<ServerResponse> validateRequest(final Mono<CRPartyDetails> request) {
+	        return request.flatMap(requestMono -> {
+	                    if (!CommonRoutines.isNullOrBlank(requestMono)&& !CommonRoutines.isNullOrBlank(requestMono.getCountryCode())&& !CommonRoutines.isNullOrBlank(requestMono.getEmail())) {
+	                        return dnbSearchFactory.execute(CommonRoutines.buildDNBSearchPayload(requestMono));
+	                    } else {
+	                        return Mono.error(new ClientException(SearchResultType.UNSUPPORTED_DATA_IN_REQUEST.getValue()));
+	                    }
+	                }
+	        );
+	    }
 
 }

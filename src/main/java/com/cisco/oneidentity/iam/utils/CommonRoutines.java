@@ -1,9 +1,6 @@
 package com.cisco.oneidentity.iam.utils;
 
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.IntStream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,17 +25,12 @@ public class CommonRoutines {
             return false;
 
     }
-	public static Mono<UUID> generateUUID() {
-		UUID requestId = UUID.randomUUID();
-		LOGGER.info("requestID:{}", requestId);
-		return Mono.just(requestId);
-	}
 
 	public static String getToday(){
 	        return new java.sql.Timestamp(System.currentTimeMillis()).toString();
 	}
 	
-    public static Mono<GatewayRequest<Object>> buildDNBSearchPayload(CRPartyDetails partyDetails){
+    public static GatewayRequest<Object> buildDNBSearchPayload(CRPartyDetails partyDetails){
       	 
 	 	GatewayRequest<Object> gatewayRequest = new GatewayRequest<Object>();
 		DNBSearchRequest dnbSearchRequest = new DNBSearchRequest();
@@ -56,8 +48,8 @@ public class CommonRoutines {
 		dnbSearchRequest.setReferenceID(OneIDConstants.REFERENCE_ID);
 		dnbSearchRequest.setTimestamp(getToday());
 		gatewayRequest.setRequest(dnbSearchRequest);
-		gatewayRequest.setServiceType(OneIDConstants.SERVICE_TYPE); 
-	return Mono.just(gatewayRequest);
+		gatewayRequest.setServiceType(OneIDConstants.DNB_SEARCH); 
+	return gatewayRequest;
  }
 	public static UUID getUUID() {
 		UUID requestId = UUID.randomUUID();

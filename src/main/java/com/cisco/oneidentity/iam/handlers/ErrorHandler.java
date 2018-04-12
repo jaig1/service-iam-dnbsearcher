@@ -18,7 +18,7 @@ public class ErrorHandler {
     private static final Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
 
     public Mono<ServerResponse> notFound(final ServerRequest request) {
-        return Mono.just(new ClientException(NOT_FOUND,ERROR_RAISED)).transform(this::getResponse);
+        return Mono.just(new ClientException(NOT_FOUND)).transform(this::getResponse);
     }
 
     Mono<ServerResponse> throwableError(final Throwable error) {
