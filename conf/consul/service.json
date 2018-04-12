@@ -1,0 +1,9 @@
+{
+  "service": {
+    "name": "dnbsearch",
+    "tags": [
+      "v1_0"
+    ],
+    "port": 9443
+  }
+}

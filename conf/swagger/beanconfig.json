@@ -1,0 +1,22 @@
+{
+  "prettyPrint" : true,
+  "resourcePackage" : "com.cisco.oneidentity.iam.search.controller",
+  "schemes" : [ "https" ],
+  "title" : "Search API",
+  "version" : "1.0",
+  "description" : "Search for users and tenants with LDAP",
+  "info" : {
+    "contact" : {
+      "name" : "Roy Chu",
+      "email" : "roychu@cisco.com",
+      "url": "u"
+    }
+  },
+  "contact": "roychu@cisco.com",
+  "license": "",
+  "licenseUrl": "",
+  "host" : "identity.cisco.com",
+  "basePath" : "",
+  "usePathBasedConfig" : false,
+  "scan" : true
+}
