@@ -34,10 +34,14 @@ spec:
           env:
             - name: VAULT_SERVICE_NAME
               value: "iam-search"
-            - name: SPRING_DATA_MONGODB_HOST
-              value: "173.36.77.64"
-            - name: SPRING_DATA_MONGODB_PORT
-              value: "32252"
+            - name: ACCESS_TOCKEN_ENDPOINT
+              value: "https://cloudsso-test.cisco.com"
+            - name: ACCESS_TOCKEN_URI
+              value: "/as/token.oauth2?grant_type=client_credentials&client_id=crtservice&client_secret=laenprd"
+            - name: ACCESS_TOCKEN_ENDPOINT
+              value: "https://crdnb-stage.cisco.com"
+            - name: ACCESS_TOCKEN_ENDPOINT
+              value: "/dnb/search"
           ports:
             - containerPort: 9443
               protocol: TCP
@@ -56,25 +60,3 @@ spec:
         - name: vault-token
           emptyDir: {}
 ---
-# Service section
-apiVersion: v1
-kind: Service
-metadata:
-  name: service-iam-dnbsearcher
-  labels:
-    name: service-iam-dnbsearcher
-spec:
-  ports:
-    # the port that this service should serve on
-       - name: http
-         protocol: TCP
-         port: 9443
-         targetPort: 9443
-       - name: route
-         prtocol: TCP
-         port: 8080
-         targetPort: 9443
-  type: LoadBalancer
-  # label kys and values that must match in order to receive traffic for this service
-  selector:
-     app: service-iam-dnbsearcher
