@@ -5,7 +5,7 @@ RUN yum -y install openssl
 
 # Define application names
 ENV APP_NAME=service-iam-dnbsearcher
-ENV APP_VERSION=0.0.9-SNAPSHOT
+ENV APP_VERSION=0.0.10-SNAPSHOT
 #ENV APP_BRANCH=SNAPSHOT
 
 #ENV APP_NAME_VERSION=${APP_NAME}-${APP_VERSION}-${APP_BRANCH}
