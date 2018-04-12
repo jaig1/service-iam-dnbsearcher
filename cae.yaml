@@ -38,9 +38,9 @@ spec:
               value: "https://cloudsso-test.cisco.com"
             - name: ACCESS_TOCKEN_URI
               value: "/as/token.oauth2?grant_type=client_credentials&client_id=crtservice&client_secret=laenprd"
-            - name: ACCESS_TOCKEN_ENDPOINT
+            - name: DNB_SEARCH_ENDPOINT
               value: "https://crdnb-stage.cisco.com"
-            - name: ACCESS_TOCKEN_ENDPOINT
+            - name: DNB_SEARCH_URI
               value: "/dnb/search"
           ports:
             - containerPort: 9443
