@@ -1,0 +1,80 @@
+---
+# Replication controller section
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: service-iam-dnbsearcher
+
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: service-iam-dnbsearcher
+      annotations:
+        coi/policy: iam-search
+        pod.beta.kubernetes.io/init-containers: '[
+          {
+            "name": "vault-init",
+            "image": "containers.cisco.com/oneidentity/vault-init:v1.0",
+            "imagePullPolicy": "Always",
+            "volumeMounts": [
+              {
+                "name": "vault-token",
+                "mountPath": "/var/run/secrets/coi"
+              }
+            ]
+          }
+        ]'
+    spec:
+      containers:
+        - name: service-iam-dnbsearcher
+          image: containers.cisco.com/oneidentity/service-iam-dnbsearcher:develop-10
+          imagePullPolicy: Always
+          env:
+            - name: VAULT_SERVICE_NAME
+              value: "iam-search"
+            - name: SPRING_DATA_MONGODB_HOST
+              value: "173.36.77.64"
+            - name: SPRING_DATA_MONGODB_PORT
+              value: "32252"
+          ports:
+            - containerPort: 9443
+              protocol: TCP
+              name: search
+          volumeMounts:
+            - name: vault-token
+              mountPath: "/var/run/secrets/coi"
+          resources:
+              limits:
+                cpu: '2'
+                memory: 4Gi
+              requests:
+                cpu: 200m
+                memory: 2Gi
+      volumes:
+        - name: vault-token
+          emptyDir: {}
+---
+# Service section
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-iam-dnbsearcher
+  labels:
+    name: service-iam-dnbsearcher
+spec:
+  ports:
+    # the port that this service should serve on
+       - name: http
+         protocol: TCP
+         port: 9443
+         targetPort: 9443
+       - name: route
+         prtocol: TCP
+         port: 8080
+         targetPort: 9443
+  type: LoadBalancer
+  # label kys and values that must match in order to receive traffic for this service
+  selector:
+     app: service-iam-dnbsearcher
