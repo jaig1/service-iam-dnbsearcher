@@ -38,9 +38,9 @@ try {
         stage 'Checkout'
               jStage = "Checkout"
               coiUtils.checkoutSource(jStage)
-        stage 'Static Scan'
+       /* stage 'Static Scan'
               jStage = "Static Scan"
-             coiUtils.staticScanner(jStage) 
+             coiUtils.staticScanner(jStage) */
         stage 'Unit Tests'
               jStage="Unit Tests"
               coiBuild.runUnitTests(jStage)
