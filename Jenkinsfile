@@ -54,9 +54,13 @@ try {
         stage 'DockerBuild And Publish'
               jStage = "DockerBuild and Publish"
               coiBuild.buildDockerImage(jStage)
-		stage 'Deploy To CAE POC'
+		/*stage 'Deploy To CAE POC'
 			jStage = "Deploy to POC"
 			environment = "poc"
+			coiDeploy.runDeploy(["alln","rcdn"] as String[], environment, jStage)*/
+		stage 'Deploy To CAE DEV'
+			jStage = "Deploy to DEV"
+			environment = "dev"
 			coiDeploy.runDeploy(["alln","rcdn"] as String[], environment, jStage)
     }
 }
