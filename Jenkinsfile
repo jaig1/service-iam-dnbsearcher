@@ -28,7 +28,7 @@ def jStage
 
 try {
 
-	    node(env.DEDICATED_SLAVE) {   
+	    node(env.PUBLIC_SLAVE) {   
 
         deleteDir() // To wipe out Workspace
         stage 'Build Initialize'
